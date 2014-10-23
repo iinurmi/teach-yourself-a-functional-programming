@@ -44,8 +44,64 @@ object ProjectEuler {
    * Find the largest palindrome made from the product of two 3-digit numbers.
    *
    */
-  def problem4(): Int = ???
+  def problem4(): Int =  def problem4(): Int = {
+       
+        def isPalidrome(charNumbers:List[Char]): Boolean = {
+            // really vulnerable function that recursively checks if list has
+            // same head as last member. If list is smaller than 1 size or empty
+            // that means that it is palidrome, not functional if you send list of size 1
+            // but hey, you should know that list of one cannot be palidrome!!!
+            
+            val listSize = charNumbers.size
+            println(charNumbers)
+            if(listSize <= 1 || charNumbers.isEmpty){
+                println("IS PALIDROME >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+                true
+            } else {
+                if(charNumbers.head != charNumbers.reverse.head){
+                    false
+                } else {
+                    if(listSize > 1){
+                        val remfirst = charNumbers.tail
+                        val remlast = remfirst.reverse.tail
+                        isPalidrome(remlast)
+                    } else {
+                        false
+                    }
+                }
+            }
+            
+            
+        }
+        def threeDigitPalidrome(num1:Int, num2:Int, largestPalidrome:Int, everySecondTurn:Boolean):Int = {
+            if(num1 >= 999 && num2 >= 999){
+                largestPalidrome
+            } else {
+                val prod = num1 * num2
+                // we need to convert it to string and then to list so that it can be "looped"
+                val prodToList = prod.toString.toList
+                
+                if(isPalidrome(prodToList)){
+                    if(everySecondTurn){
+                        threeDigitPalidrome(num1+1,num2,prod, false)
+                    } else {
+                        threeDigitPalidrome(num1,num2+1,prod, true)
+                    }
+                } else {
+                    if(everySecondTurn){
+                        threeDigitPalidrome(num1+1,num2,largestPalidrome, false)
+                    } else {
+                        threeDigitPalidrome(num1,num2+1,largestPalidrome, true)
+                    }
+                }
+            }
+        }
+        // start with the lowest 3-digit numbers = 100*100
+        // added every second boolean. If true then add to first number +1 and so on
+        threeDigitPalidrome(100,100,0,true)
+    }
 
+}
   /*
    * Special Pythagorean triplet
    *
