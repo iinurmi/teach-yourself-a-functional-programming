@@ -61,13 +61,11 @@ object ProjectEuler {
                 if(charNumbers.head != charNumbers.reverse.head){
                     false
                 } else {
-                    if(listSize > 1){
-                        val remfirst = charNumbers.tail
-                        val remlast = remfirst.reverse.tail
-                        isPalidrome(remlast)
-                    } else {
-                        false
-                    }
+                    
+                    val remfirst = charNumbers.tail
+                    val remlast = remfirst.reverse.tail
+                    isPalidrome(remlast)
+                    
                 }
             }
         }
