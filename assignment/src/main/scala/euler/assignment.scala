@@ -70,34 +70,34 @@ object ProjectEuler {
             }
         }
         
-        def threeDigitPalidrome(num1:Int, num2:Int, largestPalidrome:Int, everySecondTurn:Boolean):Int = {
+        def threeDigitPalidrome(num1:Int, num2:Int, largestPalidrome:Int): Int = {
             
-            if(num1 >= 999 && num2 >= 999){
+            if(num1 == 100 && num2 == 100){
                 largestPalidrome
             } else {
                 val prod = num1 * num2
                 // we need to convert it to string and then to list so that it can be "looped"
                 val prodToList = prod.toString.toList
                 
-                if(isPalidrome(prodToList)){
+                if(isPalidrome(prodToList) && prod > largestPalidrome){
                     println("num1 and num 2, IS palidrome = " +num1+" " +num2)
-                    if(everySecondTurn){
-                        threeDigitPalidrome(num1+1,num2,prod, false)
+                    if(num1 == 100){
+                        threeDigitPalidrome(num2-1,num2-1,prod)
                     } else {
-                        threeDigitPalidrome(num1,num2+1,prod, true)
+                        threeDigitPalidrome(num1-1,num2,prod)
                     }
                 } else {
-                    if(everySecondTurn){
-                        threeDigitPalidrome(num1+1,num2,largestPalidrome, false)
+                    if(num1 == 100){
+                        threeDigitPalidrome(num2-1,num2-1,largestPalidrome)
                     } else {
-                        threeDigitPalidrome(num1,num2+1,largestPalidrome, true)
+                        threeDigitPalidrome(num1-1,num2,largestPalidrome)
                     }
                 }
             }
         }
-        // start with the lowest 3-digit numbers = 100*100
+        // start with the highest 3-digit numbers = 999*999
         // added every second boolean. If true then add to first number +1 and so on
-        threeDigitPalidrome(100,100,0,true)
+        threeDigitPalidrome(993,913,0)
     }
 
   /*
