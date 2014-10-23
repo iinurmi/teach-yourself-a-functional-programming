@@ -97,7 +97,7 @@ object ProjectEuler {
         }
         // start with the highest 3-digit numbers = 999*999
         // added every second boolean. If true then add to first number +1 and so on
-        threeDigitPalidrome(993,913,0)
+        threeDigitPalidrome(999,999,0)
     }
 
   /*
@@ -130,7 +130,46 @@ object ProjectEuler {
    * Find the maximum total from top to bottom of the given triangle with 15
    * rows:
    */
-  def problem18(triangle: List[List[Int]]): Int = ???
+   
+   // I REALLY CAN'T FIGURE THIS OUT GOING TOP TO BOTTOM SO I TRIED SOMETHING ELSE
+   // AND I DID NOT WAN'T TO USE BRUTAL FORCE
+ def problem18(triangle: List[List[Int]]): Int = {
+    // take the last-list and sum it with the best path of the last lists elements
+    // it is called falsely lastList -element because it is reversed so actually the first list element
+  
+    val rTriangle = triangle.reverse
+    
+    def greatestSumOfLists (x:Int,list1:List[Int],list2:List[Int],sumList:List[Int]): List[Int] = {
+        
+        if(x >= list2.size-1){
+            sumList
+        } else {
+            val greatestSum = list2(x) + scala.math.max(list1(x),list2(x+1))
+            greatestSumOfLists(x+1,list1,list2, greatestSum :: sumList)
+        }
+    }
+    
+    
+    if(triangle.tail.length == 1){
+        val firstElement = triangle.head
+        val secondElement = triangle.reverse.head
+        firstElement(0) + secondElement(0)
+        
+        
+    } else {
+        
+        val total = greatestSumOfLists(0, rTriangle.head, rTriangle.tail.head, List())
+        println(total)
+        // remove first 2 list from the triangle and put sumlist into it
+        val firstRemove = rTriangle.tail
+        val secondRemove = firstRemove.tail
+        
+        // call itself to calculate next row sum
+        val finalList = total :: secondRemove
+    
+        problem18(finalList.reverse)
+    }
+  }
 
   /*
    * Maximum path sum II
@@ -154,5 +193,7 @@ object ProjectEuler {
    * would take over twenty billion years to check them all. There is an
    * efficient algorithm to solve it. ;o)
    */
-  def problem67(triangle: List[List[Int]]): Int = ???
+  def problem67(triangle: List[List[Int]]): Int = {
+      problem18(triangle)
+  }
 }
