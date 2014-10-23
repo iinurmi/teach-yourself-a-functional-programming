@@ -44,7 +44,7 @@ object ProjectEuler {
    * Find the largest palindrome made from the product of two 3-digit numbers.
    *
    */
-  def problem4(): Int =  def problem4(): Int = {
+  def problem4(): Int = {
        
         def isPalidrome(charNumbers:List[Char]): Boolean = {
             // really vulnerable function that recursively checks if list has
@@ -53,7 +53,7 @@ object ProjectEuler {
             // but hey, you should know that list of one cannot be palidrome!!!
             
             val listSize = charNumbers.size
-            println(charNumbers)
+            
             if(listSize <= 1 || charNumbers.isEmpty){
                 println("IS PALIDROME >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
                 true
@@ -70,10 +70,10 @@ object ProjectEuler {
                     }
                 }
             }
-            
-            
         }
+        
         def threeDigitPalidrome(num1:Int, num2:Int, largestPalidrome:Int, everySecondTurn:Boolean):Int = {
+            
             if(num1 >= 999 && num2 >= 999){
                 largestPalidrome
             } else {
@@ -82,6 +82,7 @@ object ProjectEuler {
                 val prodToList = prod.toString.toList
                 
                 if(isPalidrome(prodToList)){
+                    println("num1 and num 2, IS palidrome = " +num1+" " +num2)
                     if(everySecondTurn){
                         threeDigitPalidrome(num1+1,num2,prod, false)
                     } else {
@@ -101,7 +102,6 @@ object ProjectEuler {
         threeDigitPalidrome(100,100,0,true)
     }
 
-}
   /*
    * Special Pythagorean triplet
    *
