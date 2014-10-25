@@ -46,13 +46,10 @@ object ProjectEuler {
    */
   def problem4(): Int = {
        
-        def isPalidrome(charNumbers:List[Char]): Boolean = {
-            // really vulnerable function that recursively checks if list has
-            // same head as last member. If list is smaller than 1 size or empty
-            // that means that it is palidrome, not functional if you send list of size 1
-            // but hey, you should know that list of one cannot be palidrome!!!
-            
-            val listSize = charNumbers.size
+        def isPalidrome(str:String): Boolean = {
+            // it was this easy ...
+            str == str.reverse
+            /*val listSize = charNumbers.size
             
             if(listSize <= 1 || charNumbers.isEmpty){
                 println("IS PALIDROME >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
@@ -67,7 +64,7 @@ object ProjectEuler {
                     isPalidrome(remlast)
                     
                 }
-            }
+            }*/
         }
         
         def threeDigitPalidrome(num1:Int, num2:Int, largestPalidrome:Int): Int = {
@@ -76,10 +73,8 @@ object ProjectEuler {
                 largestPalidrome
             } else {
                 val prod = num1 * num2
-                // we need to convert it to string and then to list so that it can be "looped"
-                val prodToList = prod.toString.toList
                 
-                if(isPalidrome(prodToList) && prod > largestPalidrome){
+                if(isPalidrome(prod.toString) && prod > largestPalidrome){
                     println("num1 and num 2, IS palidrome = " +num1+" " +num2)
                     if(num1 == 100){
                         threeDigitPalidrome(num2-1,num2-1,prod)
@@ -136,30 +131,28 @@ object ProjectEuler {
  def problem18(triangle: List[List[Int]]): Int = {
     // take the last-list and sum it with the best path of the last lists elements
     // it is called falsely lastList -element because it is reversed so actually the first list element
-  
+    //println("hello pr 18")
     val rTriangle = triangle.reverse
     
-    def greatestSumOfLists (x:Int,list1:List[Int],list2:List[Int],sumList:List[Int]): List[Int] = {
-        
-        if(x >= list2.size-1){
-            sumList
+    def greatestSumOfLists (list1:List[Int],list2:List[Int],sumList:List[Int]): List[Int] = {
+        //println("gretestSumOflists: " +list1+ " " +list2+ " "+ sumList+ "list2size " + list2.size +" list1size " + list1.size)
+        if(list2.isEmpty){
+            sumList.reverse
         } else {
-            val greatestSum = list2(x) + scala.math.max(list1(x),list2(x+1))
-            greatestSumOfLists(x+1,list1,list2, greatestSum :: sumList)
+            val greatestSum = list2(0) + scala.math.max(list1(0),list1(1))
+            greatestSumOfLists(list1.tail, list2.tail, greatestSum :: sumList)
         }
     }
     
     
     if(triangle.tail.length == 1){
-        val firstElement = triangle.head
-        val secondElement = triangle.reverse.head
-        firstElement(0) + secondElement(0)
+        val total = greatestSumOfLists(rTriangle.head, rTriangle.tail.head, List())
+        total.head
         
         
     } else {
         
-        val total = greatestSumOfLists(0, rTriangle.head, rTriangle.tail.head, List())
-        println(total)
+        val total = greatestSumOfLists(rTriangle.head, rTriangle.tail.head, List())
         // remove first 2 list from the triangle and put sumlist into it
         val firstRemove = rTriangle.tail
         val secondRemove = firstRemove.tail
